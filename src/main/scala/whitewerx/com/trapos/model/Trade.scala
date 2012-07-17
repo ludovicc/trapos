@@ -6,6 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-abstract case class Trade(amount: Amount, dealRate: Rate) {
+sealed abstract case class Trade(val amount: Amount, val dealRate: Rate) {
 
 }
+
+case class Purchase(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
+case class Sell(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
