@@ -6,7 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
 
-sealed abstract case class Trade(val amount: Amount, val dealRate: Rate) {
+sealed abstract class Trade(val amount: Amount, val dealRate: Rate) {
+
+  def baseAmount = {
+    amount
+  }
+
+  def quoteAmount = {
+    dealRate.convert(amount)
+  }
 
 }
 

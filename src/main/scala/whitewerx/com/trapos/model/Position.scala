@@ -11,9 +11,7 @@ case class Position protected(ccy1Amount: Amount, ccy2Amount: Amount,
                     currencyPair: CurrencyPair, pnlCurrency: Currency) {
 
   override def toString: String = {
-      "Position [ccy1Amount=" + ccy1Amount + ", ccy2Amount=" + ccy2Amount
-        + ", ccy1EquivalentInPNLCurrency=" + ccy1EquivalentInPNLCurrency + ", ccy2EquivalentInPNLCurrency=" + ccy2EquivalentInPNLCurrency
-        + ", currencyPair=" + currencyPair + ", pnlCurrency=" + pnlCurrency + "]"
+      "Position [ccy1Amount=${ccy1Amount}, ccy2Amount=${ccy2Amount}, ccy1EquivalentInPNLCurrency=${ccy1EquivalentInPNLCurrency}, ccy2EquivalentInPNLCurrency=${ccy2EquivalentInPNLCurrency}, currencyPair=${currencyPair}, pnlCurrency=${pnlCurrency}]"
   }
 
   /**
@@ -26,19 +24,19 @@ case class Position protected(ccy1Amount: Amount, ccy2Amount: Amount,
      */
     def add(trade: Trade): Position = {
       val ccy2AmountDelta = trade.quoteAmount
-      switch (trade) {
-        case Purchase =>
+      trade match {
+        case _: Purchase =>
           new Position(
-            ccy1Amount = ccy1Amount.add(trade.getBaseAmount),
-            ccy2Amount = ccy2Amount.subtract(ccy2AmountDelta),
-            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency.add(ccy2AmountDelta),
+            ccy1Amount = ccy1Amount + trade.baseAmount,
+            ccy2Amount = ccy2Amount - ccy2AmountDelta,
+            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency + ccy2AmountDelta,
             ccy2EquivalentInPNLCurrency = ccy2Amount,
             currencyPair, pnlCurrency)
-        case Sell =>
+        case _: Sell =>
           new Position(
-            ccy1Amount = ccy1Amount.subtract(trade.getBaseAmount),
-            ccy2Amount = ccy2Amount.add(ccy2AmountDelta),
-            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency.subtract(ccy2AmountDelta),
+            ccy1Amount = ccy1Amount - trade.baseAmount,
+            ccy2Amount = ccy2Amount + ccy2AmountDelta,
+            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency - ccy2AmountDelta,
             ccy2EquivalentInPNLCurrency = ccy2Amount,
             currencyPair, pnlCurrency)
       }
