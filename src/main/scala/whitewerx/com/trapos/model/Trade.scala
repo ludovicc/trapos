@@ -18,5 +18,5 @@ sealed abstract class Trade(val amount: Amount, val dealRate: Rate) {
 
 }
 
-case class Purchase(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
-case class Sell(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
+final case class Purchase(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
+final case class Sell(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
