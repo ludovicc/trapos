@@ -1,10 +1,4 @@
-/**
- * Created with IntelliJ IDEA.
- * User: ludo
- * Date: 7/17/12
- * Time: 12:14 AM
- * To change this template use File | Settings | File Templates.
- */
+package whitewerx.com.trapos.model
 
 case class Position protected(ccy1Amount: Amount, ccy2Amount: Amount,
                     ccy1EquivalentInPNLCurrency: Amount, ccy2EquivalentInPNLCurrency: Amount,

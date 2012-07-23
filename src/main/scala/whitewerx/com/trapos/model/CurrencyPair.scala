@@ -1,10 +1,4 @@
-/**
- * Created with IntelliJ IDEA.
- * User: ludo
- * Date: 7/17/12
- * Time: 12:10 AM
- * To change this template use File | Settings | File Templates.
- */
+package whitewerx.com.trapos.model
 
 /**
  * Represents a currency pair in the market convention.

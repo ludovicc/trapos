@@ -1,4 +1,4 @@
-name := "trapos-scala"
+name := "trapos"
 
 version := "0.1"
 
@@ -11,3 +11,6 @@ libraryDependencies ++=
 
 // filter out src/main/java
 unmanagedSourceDirectories in Compile <<= (scalaSource in Compile)( _ :: Nil)
+
+// filter out src/test/java
+unmanagedSourceDirectories in Test <<= (scalaSource in Test)( _ :: Nil)

@@ -1,3 +1,5 @@
+package whitewerx.com.trapos.model
+
 /**
  * Created with IntelliJ IDEA.
  * User: ludo
