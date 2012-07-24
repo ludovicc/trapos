@@ -20,6 +20,7 @@ public class TradeTest {
     
     @Test
     public void shouldCalculateTheQuoteAmount() {
+
         final Rate rateEURUSD = context.mock(Rate.class);
         
         final Amount quoteAmount = new Amount(2624800, USD);
