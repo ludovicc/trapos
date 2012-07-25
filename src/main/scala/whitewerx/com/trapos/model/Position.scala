@@ -1,11 +1,14 @@
 package whitewerx.com.trapos.model
 
-case class Position protected(ccy1Amount: Amount, ccy2Amount: Amount,
+case class Position (ccy1Amount: Amount, ccy2Amount: Amount,
                     ccy1EquivalentInPNLCurrency: Amount, ccy2EquivalentInPNLCurrency: Amount,
                     currencyPair: CurrencyPair, pnlCurrency: Currency) {
 
   override def toString: String = {
-      "Position [ccy1Amount=${ccy1Amount}, ccy2Amount=${ccy2Amount}, ccy1EquivalentInPNLCurrency=${ccy1EquivalentInPNLCurrency}, ccy2EquivalentInPNLCurrency=${ccy2EquivalentInPNLCurrency}, currencyPair=${currencyPair}, pnlCurrency=${pnlCurrency}]"
+// XXX Scala 2.10
+//      "Position [ccy1Amount=${ccy1Amount}, ccy2Amount=${ccy2Amount}, ccy1EquivalentInPNLCurrency=${ccy1EquivalentInPNLCurrency}, ccy2EquivalentInPNLCurrency=${ccy2EquivalentInPNLCurrency}, currencyPair=${currencyPair}, pnlCurrency=${pnlCurrency}]"
+      "Position [ccy1Amount=" + ccy1Amount + ", ccy2Amount=" + ccy2Amount + ", ccy1EquivalentInPNLCurrency=" + ccy1EquivalentInPNLCurrency +
+        ", ccy2EquivalentInPNLCurrency=" + ccy2EquivalentInPNLCurrency + ", currencyPair=" + currencyPair + ", pnlCurrency=" + pnlCurrency + "]"
   }
 
   /**
@@ -20,19 +23,23 @@ case class Position protected(ccy1Amount: Amount, ccy2Amount: Amount,
       val ccy2AmountDelta = trade.quoteAmount
       trade match {
         case _: Purchase =>
+          val updatedCcy2 = this.ccy2Amount - ccy2AmountDelta
           new Position(
-            ccy1Amount = ccy1Amount + trade.baseAmount,
-            ccy2Amount = ccy2Amount - ccy2AmountDelta,
-            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency + ccy2AmountDelta,
-            ccy2EquivalentInPNLCurrency = ccy2Amount,
-            currencyPair, pnlCurrency)
+            ccy1Amount = this.ccy1Amount + trade.baseAmount,
+            ccy2Amount = updatedCcy2,
+            ccy1EquivalentInPNLCurrency = this.ccy1EquivalentInPNLCurrency + ccy2AmountDelta,
+            ccy2EquivalentInPNLCurrency = updatedCcy2,
+            currencyPair = this.currencyPair,
+            pnlCurrency = this.pnlCurrency)
         case _: Sell =>
+          val updatedCcy2 = this.ccy2Amount + ccy2AmountDelta
           new Position(
-            ccy1Amount = ccy1Amount - trade.baseAmount,
-            ccy2Amount = ccy2Amount + ccy2AmountDelta,
-            ccy1EquivalentInPNLCurrency = ccy1EquivalentInPNLCurrency - ccy2AmountDelta,
-            ccy2EquivalentInPNLCurrency = ccy2Amount,
-            currencyPair, pnlCurrency)
+            ccy1Amount = this.ccy1Amount - trade.baseAmount,
+            ccy2Amount = updatedCcy2,
+            ccy1EquivalentInPNLCurrency = this.ccy1EquivalentInPNLCurrency - ccy2AmountDelta,
+            ccy2EquivalentInPNLCurrency = updatedCcy2,
+            currencyPair = this.currencyPair,
+            pnlCurrency = this.pnlCurrency)
       }
     }
 }
