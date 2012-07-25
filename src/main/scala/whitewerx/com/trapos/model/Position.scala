@@ -56,10 +56,11 @@ object Position {
        * for the flat position.
      */
     def createFlatPositionFor(currencyPair: CurrencyPair): Position = {
-      val ccy1Amount: Amount = Amount(0, currencyPair.base)
-      val ccy2Amount: Amount = Amount(0, currencyPair.quote)
-      val ccy1EqvAmount: Amount = ccy2Amount
-      val ccy2EqvAmount: Amount = ccy2Amount
-      return new Position(ccy1Amount, ccy2Amount, ccy1EqvAmount, ccy2EqvAmount, currencyPair, currencyPair.quote)
+      val ccy1Amount = Amount(0, currencyPair.base)
+      val ccy2Amount = Amount(0, currencyPair.quote)
+      val ccy1EqvAmount = ccy2Amount
+      val ccy2EqvAmount = ccy2Amount
+
+      Position(ccy1Amount, ccy2Amount, ccy1EqvAmount, ccy2EqvAmount, currencyPair, currencyPair.quote)
     }
   }

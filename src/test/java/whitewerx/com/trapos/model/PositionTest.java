@@ -37,17 +37,17 @@ public class PositionTest {
         Position expectedPosition = create5point1MillionEURUSDPosition();
         final PositionChangeEvent positionChangeEvent = new PositionChangeEvent(expectedPosition);
 
-//        @SuppressWarnings("unchecked")
-//        final EventHandler<PositionChangeEvent> positionChangeHandler = (EventHandler<PositionChangeEvent>) context
-//                .mock(EventHandler.class);
-//
-//        DomainEvents.registerFor(PositionChangeEvent.class, positionChangeHandler);
-//
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(positionChangeHandler).handle(positionChangeEvent);
-//            }
-//        });
+        @SuppressWarnings("unchecked")
+        final EventHandler<PositionChangeEvent> positionChangeHandler = (EventHandler<PositionChangeEvent>) context
+                .mock(EventHandler.class);
+
+        DomainEvents.registerFor(PositionChangeEvent.class, positionChangeHandler);
+
+        context.checking(new Expectations() {
+            {
+                oneOf(positionChangeHandler).handle(positionChangeEvent);
+            }
+        });
 
         positionEURUSD.add(buyEURUSD);
     }

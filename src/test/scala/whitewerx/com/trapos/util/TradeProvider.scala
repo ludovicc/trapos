@@ -13,20 +13,20 @@ import whitewerx.com.trapos.model.Purchase
  */
 object TradeProvider {
   private def createSimpleEURUSDTrade: Trade = {
-    val fivePointOneThousand: Amount = new Amount(5.1 * 1000, CurrencyProvider.EUR)
-    val atEURUSDRate: Rate = new Rate(1.3124, EUR_USD)
+    val fivePointOneThousand = Amount(5.1 * 1000, CurrencyProvider.EUR)
+    val atEURUSDRate = Rate(1.3124, EUR_USD)
     Purchase(fivePointOneThousand, atEURUSDRate)
   }
 
   private def create5mEURUSDTrade: Trade = {
-    val amount: Amount = new Amount(5 * ONE_MILLION, CurrencyProvider.EUR)
-    val atEURUSDRate: Rate = new Rate(1.3150, EUR_USD)
+    val amount = Amount(5 * ONE_MILLION, CurrencyProvider.EUR)
+    val atEURUSDRate = Rate(1.3150, EUR_USD)
     Purchase(amount, atEURUSDRate)
   }
 
   private def create3mEURUSDTrade: Trade = {
-    val amount: Amount = new Amount(3 * ONE_MILLION, CurrencyProvider.EUR)
-    val atEURUSDRate: Rate = new Rate(1.3160, EUR_USD)
+    val amount = Amount(3 * ONE_MILLION, CurrencyProvider.EUR)
+    val atEURUSDRate = Rate(1.3160, EUR_USD)
     Sell(amount, atEURUSDRate)
   }
 
