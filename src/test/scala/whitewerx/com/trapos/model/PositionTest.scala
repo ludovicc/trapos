@@ -16,9 +16,7 @@ class PositionTest extends FunSpec with ShouldMatchers {
     it ("should add a trade to a flat position") {
 
       val positionEURUSD = Position.createFlatPositionFor(EUR_USD)
-      println (positionEURUSD)
       val expectedPosition = create5point1MillionEURUSDPosition
-      println (expectedPosition)
 
       val result = positionEURUSD.add(buy_EUR_USD)
 
@@ -28,9 +26,7 @@ class PositionTest extends FunSpec with ShouldMatchers {
     it ("should have a two million position average rate") {
 
       val positionEURUSD = Position.createFlatPositionFor(EUR_USD)
-      println (positionEURUSD)
       val expectedPosition = create2MillionEURUSDPosition
-      println (expectedPosition)
 
       val result = positionEURUSD.add(buy_5m_EUR_USD).add(sell_3m_EUR_USD)
 
