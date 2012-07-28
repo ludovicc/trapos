@@ -44,7 +44,11 @@ case class Position (ccy1Amount: Amount, ccy2Amount: Amount,
     }
 }
 
-object Position {
+trait PositionFactory {
+    def createFlatPositionFor(currencyPair: CurrencyPair): Position
+}
+
+object Position extends PositionFactory {
   /**
      * Note this assumes the PNL currency is always the quote currency in a real
      * system this would not be correct.

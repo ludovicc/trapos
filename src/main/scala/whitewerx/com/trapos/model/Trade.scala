@@ -10,6 +10,9 @@ sealed abstract class Trade(val amount: Amount, val dealRate: Rate) {
     dealRate.convert(amount)
   }
 
+  def currencyPair: CurrencyPair = {
+    this.dealRate.currencyPair
+  }
 }
 
 final case class Purchase(override val amount: Amount, override val dealRate: Rate) extends Trade(amount, dealRate)
