@@ -8,4 +8,5 @@ package whitewerx.com.trapos.model
  * To change this template use File | Settings | File Templates.
  */
 
+// TODO: memoize the creation of currencies
 case class Currency(val isoCode: String)

@@ -1,5 +1,7 @@
 package whitewerx.com.trapos.model
 
+import java.util.regex.Pattern
+
 /**
  * A Rate specified in terms of the quote currency.
  *
@@ -40,7 +42,6 @@ case class Rate(rate: Double, quotedPair: CurrencyPair) {
    * @return
    */
   def convert(baseAmount: Amount): Amount = {
-    // TODO: more Scala-ish test
     if (!baseAmount.currencyMatches(baseCurrency)) throw new IllegalArgumentException("The base amount currency does not match the rate base currency. Amount: " + baseAmount + " Rate Base Currency: " + baseCurrency)
 
     val atRate: Double = this.rate
