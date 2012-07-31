@@ -16,34 +16,29 @@ object TradeTranslator {
 
   def unapply(delimitedTrade: String): Option[Trade] = {
 
-    for (
-      TradeRegex("B", amount, multiplier, unparsedRate) <- delimitedTrade
-      Some(rate) <- RateTranslator.unapply(unparsedRate)
-    ) yield Purchase(Amount(amount.toDouble, Currency("EUR")), rate)
-
-    /*delimitedTrade match {
-      case TradeRegex("B", amount, multiplier, unparsedRate) =>
-        println ("Match B " + amount + " " + multiplier + " " + unparsedRate)
+    delimitedTrade match {
+      case TradeRegex(tradeType, amount, multiplier, unparsedRate) =>
         RateTranslator.unapply(unparsedRate) match {
           case Some(rate) =>
-            println ("Match rate")
-            Some(Purchase(Amount(amount.toDouble, Currency("EUR")), rate))
-          case _ => None
-        }
-
-      case TradeRegex("S", amount, multiplier, unparsedRate) =>
-        println ("Match S " + amount + " " + multiplier + " " + unparsedRate)
-        RateTranslator.unapply(unparsedRate) match {
-          case Some(rate) =>
-            println ("Match rate")
-            Some(Sell(Amount(amount.toDouble, Currency("EUR")), rate))
+            tradeType match {
+              case "B" =>
+                Some(Purchase(Amount(amount.toDouble * valueOf(multiplier), rate.baseCurrency), rate))
+              case "S" =>
+                Some(Sell(Amount(amount.toDouble * valueOf(multiplier), rate.baseCurrency), rate))
+            }
           case _ => None
         }
 
       case _ =>
-        println ("No match")
         None
-    }*/
+    }
   }
 
+  private def valueOf(multiplier: String): Double = {
+    multiplier match {
+      case "t" => 1000
+      case "m" => 1000000
+      case _ => 1
+    }
+  }
 }

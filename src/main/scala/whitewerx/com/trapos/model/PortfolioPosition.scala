@@ -6,7 +6,8 @@ import scala.collection.mutable.{HashMap => MutableHashMap}
  * @author ludo
  */
 
-class PortfolioPosition(val positionFactory: PositionFactory) {
+class PortfolioPosition(val positionFactory: PositionFactory) extends Mutable {
+
   private val positions = new MutableHashMap[CurrencyPair, Position]
 
   def add(trade: Trade): Position = {
