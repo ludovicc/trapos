@@ -51,6 +51,7 @@ class MarketEvent extends Mutable {
 }
 
 object MarketEvent {
+
   val FACTORY = new EventFactory[MarketEvent] {
     def newInstance: MarketEvent = new MarketEvent
 
