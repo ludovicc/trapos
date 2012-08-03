@@ -1,5 +1,8 @@
 package whitewerx.com.trapos.disruptor
 
+import whitewerx.com.trapos.translators.TradeTranslator
+import whitewerx.com.trapos.model.Trade
+
 /**
  * @author ludo
  */
@@ -10,9 +13,20 @@ object MarketTradeEventHandler {
 
 }
 
-class MarketTradeEventHandler {
+class MarketTradeEventHandler(translator: TradeTranslator) {
+
   import MarketTradeEventHandler.logger
   import MarketTradeEventHandler.formatter._
 
+  def onEvent(marketEvent: MarketEvent, sequence: Long, endOfBatch: Boolean) {
+    val delimitedTrade = marketEvent.message
 
+    val trade = translator.unapply(delimitedTrade)
+    trade.foreach(process(marketEvent, sequence, endOfBatch))
+  }
+
+  private def process(marketEvent: MarketEvent, sequence: Long, endOfBatch: Boolean)(trade: Trade) {
+    marketEvent.accept(trade)
+    logger.info{ _ ++= "onEvent: seq:" ++= sequence.toString ++= "/" + endOfBatch ++= " event: " ++= marketEvent.toString }
+  }
 }

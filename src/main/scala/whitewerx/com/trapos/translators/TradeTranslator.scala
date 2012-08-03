@@ -1,16 +1,17 @@
 package whitewerx.com.trapos.translators
 
 import whitewerx.com.trapos.model._
-import scala.Some
 import whitewerx.com.trapos.model.Purchase
-import whitewerx.com.trapos.model.Rate
-import whitewerx.com.trapos.model.translators.RateTranslator
 
 /**
  * @author ludo
  */
 
-object TradeTranslator {
+trait TradeTranslator {
+  def unapply(delimitedTrade: String): Option[Trade]
+}
+
+object TradeTranslator extends TradeTranslator {
   /**Match RATE|(CCY1)(CCY2)|(rate as a double) */
   private val TradeRegex = """^T\|([B|S])\|(\d+(?:\.\d+)?)([t,m]?)\|(R\|.*)""".r
 

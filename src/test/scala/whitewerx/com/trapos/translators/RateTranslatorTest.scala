@@ -1,8 +1,7 @@
-package whitewerx.com.trapos.translator
+package whitewerx.com.trapos.translators
 
-import org.scalatest.{GivenWhenThen, FunSpec}
+import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import whitewerx.com.trapos.model.translators.RateTranslator
 import whitewerx.com.trapos.model.Rate
 import whitewerx.com.trapos.util.CurrencyPairProvider._
 

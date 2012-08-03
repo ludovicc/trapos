@@ -1,4 +1,4 @@
-package whitewerx.com.trapos.model.translators
+package whitewerx.com.trapos.translators
 
 import whitewerx.com.trapos.model.{Rate, Currency, CurrencyPair}
 
@@ -6,7 +6,11 @@ import whitewerx.com.trapos.model.{Rate, Currency, CurrencyPair}
  * @author ludo
  */
 
-object RateTranslator {
+trait RateTranslator {
+  def unapply(delimitedRate: String) : Option[Rate]
+}
+
+object RateTranslator extends RateTranslator {
   /**Match RATE|(CCY1)(CCY2)|(rate as a double) */
   private val RateRegex = """^R\|([A-Z]{3})([A-Z]{3})\|(\d+(?:\.\d+)?)""".r
 
