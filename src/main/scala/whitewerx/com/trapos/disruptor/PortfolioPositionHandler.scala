@@ -1,6 +1,7 @@
 package whitewerx.com.trapos.disruptor
 
 import whitewerx.com.trapos.model.{Trade, PortfolioPosition}
+import whitewerx.com.trapos.model.event.{DomainEvents, EventHandler, PositionChangeEvent}
 
 /**
  * @author ludo
@@ -12,7 +13,7 @@ object PortfolioPositionHandler {
 
 }
 
-class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition) {
+class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition) extends EventHandler[PositionChangeEvent] {
   import PortfolioPositionHandler.logger
   import PortfolioPositionHandler.formatter._
 
@@ -26,7 +27,7 @@ class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition)
 
     marketEvent.trade.foreach{trade =>
       def updatedPosition = portfolioPosition.add(trade)
-      // TODO: fire position change event
+      DomainEvents.raise(PositionChangeEvent(updatedPosition))
     }
   }
 
@@ -37,4 +38,5 @@ class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition)
   def handle(event: PositionChangeEvent) {
     logger.info { _ ++= "Position change. seq:" ++= currentSequence.toString ++= " pos:" ++= event.position.toString }
   }
+
 }
