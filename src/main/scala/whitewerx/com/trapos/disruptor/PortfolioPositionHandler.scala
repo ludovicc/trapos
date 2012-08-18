@@ -1,7 +1,8 @@
 package whitewerx.com.trapos.disruptor
 
-import whitewerx.com.trapos.model.{Trade, PortfolioPosition}
-import whitewerx.com.trapos.model.event.{DomainEvents, EventHandler, PositionChangeEvent}
+import whitewerx.com.trapos.model.PortfolioPosition
+import whitewerx.com.trapos.model.event._
+import collection.mutable
 
 /**
  * @author ludo
@@ -13,7 +14,7 @@ object PortfolioPositionHandler {
 
 }
 
-class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition) extends EventHandler[PositionChangeEvent] {
+class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition) extends mutable.Subscriber[Event, DomainEventsPublisher] {
   import PortfolioPositionHandler.logger
   import PortfolioPositionHandler.formatter._
 
@@ -25,18 +26,16 @@ class PortfolioPositionHandler(private val portfolioPosition: PortfolioPosition)
 
     currentSequence = sequence
 
-    marketEvent.trade.foreach{trade =>
+    marketEvent.trade.foreach{ trade =>
       def updatedPosition = portfolioPosition.add(trade)
       DomainEvents.raise(PositionChangeEvent(updatedPosition))
     }
   }
 
-  /**
-   * Log the positions as they are changed, in the real world this might
-   * notify something else.
-   */
-  def handle(event: PositionChangeEvent) {
-    logger.info { _ ++= "Position change. seq:" ++= currentSequence.toString ++= " pos:" ++= event.position.toString }
+  def notify(pub: DomainEventsPublisher, event: Event) {
+    event match {
+      case positionEvent: PositionChangeEvent =>
+        logger.info { _ ++= "Position change. seq:" ++= currentSequence.toString ++= " pos:" ++= positionEvent.position.toString }
+    }
   }
-
 }

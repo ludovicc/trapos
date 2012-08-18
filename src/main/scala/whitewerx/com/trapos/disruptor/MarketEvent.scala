@@ -34,7 +34,7 @@ class MarketEvent extends Mutable {
   /**
    * @return the trade populated on the event.
    */
-  def trade: Option[Trade] = return _trade
+  def trade: Option[Trade] = _trade
 
   def accept(trade: Trade) {
     this._trade = Some(trade)
