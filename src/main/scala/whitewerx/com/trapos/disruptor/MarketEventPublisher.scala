@@ -18,8 +18,9 @@ object MarketEventPublisher {
 }
 
 import MarketEventPublisher.RingBuffer
+import whitewerx.com.trapos.gateway.TextMessageSubscriber
 
-class MarketEventPublisher(private val ringBuffer: RingBuffer) {
+class MarketEventPublisher(private val ringBuffer: RingBuffer) extends TextMessageSubscriber {
 
   import MarketEventPublisher.logger
   import MarketEventPublisher.formatter._

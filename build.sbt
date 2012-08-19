@@ -6,6 +6,7 @@ version := "0.1"
 scalaVersion := "2.9.2"
 
 libraryDependencies ++=
+  "io.netty" % "netty" % "3.5.4.Final" ::
   "com.googlecode.disruptor" % "disruptor" % "2.10.1" ::
   "com.dongxiguo" %% "zero-log" % "0.1.2" ::
   "org.scalatest" % "scalatest_2.9.0" % "1.8" % "test" ::
