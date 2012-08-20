@@ -5,7 +5,7 @@ version := "0.1"
 //scalaVersion := "2.10.0-M5"
 scalaVersion := "2.9.2"
 
-(Compile, run) mainClass := Some("whitewerx.com.trapos.App")
+mainClass in (Compile, run) := Some("whitewerx.com.trapos.App")
 
 libraryDependencies ++=
   "io.netty" % "netty" % "3.5.4.Final" ::
