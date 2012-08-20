@@ -2,6 +2,7 @@ package whitewerx.com.trapos.disruptor
 
 import whitewerx.com.trapos.translators.TradeTranslator
 import whitewerx.com.trapos.model.Trade
+import com.lmax.disruptor.EventHandler
 
 /**
  * @author ludo
@@ -13,7 +14,7 @@ object MarketTradeEventHandler {
 
 }
 
-class MarketTradeEventHandler(translator: TradeTranslator) {
+class MarketTradeEventHandler(translator: TradeTranslator) extends EventHandler[MarketEvent] {
 
   import MarketTradeEventHandler.logger
   import MarketTradeEventHandler.formatter._
