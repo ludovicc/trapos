@@ -42,8 +42,11 @@ object App extends scala.App with ShutdownListener {
   // Netty Event Publisher
   val gateway: TextMessageGateway = createGatewayEventPublisher(ringBuffer)
   // The producer can't move past this barrier.
-
   ringBuffer.setGatingSequences(tradeProcessor.getSequence, rateProcessor.getSequence, portfolioPositionProcessor.getSequence)
+
+  eventProcessors(0) = tradeProcessor
+  eventProcessors(1) = rateProcessor
+  eventProcessors(2) = portfolioPositionProcessor
 
   // Start the threads
   tasks(0) = threadPool.submit(gateway)
@@ -62,8 +65,7 @@ object App extends scala.App with ShutdownListener {
    */
   private def createGatewayEventPublisher(ringBuffer: RingBuffer[MarketEvent]): TextMessageGateway = {
     val eventPublisher: MarketEventPublisher = new MarketEventPublisher(ringBuffer.asInstanceOf[MarketEventPublisher.RingBuffer])
-    val gateway: TextMessageGateway = new TextMessageGateway(eventPublisher, this)
-    gateway
+    new TextMessageGateway(eventPublisher, this)
   }
 
   /**
@@ -75,9 +77,7 @@ object App extends scala.App with ShutdownListener {
    */
   private def createPortfolioPositionProcessor(ringBuffer: RingBuffer[MarketEvent], positionBarrier: SequenceBarrier): EventProcessor = {
     val portfolioPositionHandler = new PortfolioPositionHandler(new PortfolioPosition(Position))
-    val portfolioPositionProcessor: EventProcessor = new BatchEventProcessor[MarketEvent](ringBuffer, positionBarrier, portfolioPositionHandler)
-    eventProcessors(2) = portfolioPositionProcessor
-    portfolioPositionProcessor
+    new BatchEventProcessor[MarketEvent](ringBuffer, positionBarrier, portfolioPositionHandler)
   }
 
   /**
@@ -89,9 +89,7 @@ object App extends scala.App with ShutdownListener {
    */
   private def createRateProcessor(ringBuffer: RingBuffer[MarketEvent], translationBarrier: SequenceBarrier): EventProcessor = {
     val rateHandler: MarketRateEventHandler = new MarketRateEventHandler(RateTranslator)
-    val rateProcessor: EventProcessor = new BatchEventProcessor[MarketEvent](ringBuffer, translationBarrier, rateHandler)
-    eventProcessors(1) = rateProcessor
-    rateProcessor
+    new BatchEventProcessor[MarketEvent](ringBuffer, translationBarrier, rateHandler)
   }
 
   /**
@@ -103,9 +101,7 @@ object App extends scala.App with ShutdownListener {
    */
   private def createTradeProcessor(ringBuffer: RingBuffer[MarketEvent], translationBarrier: SequenceBarrier): EventProcessor = {
     val tradeHandler: MarketTradeEventHandler = new MarketTradeEventHandler(TradeTranslator)
-    val tradeProcessor: EventProcessor = new BatchEventProcessor[MarketEvent](ringBuffer, translationBarrier, tradeHandler)
-    eventProcessors(0) = tradeProcessor
-    tradeProcessor
+    new BatchEventProcessor[MarketEvent](ringBuffer, translationBarrier, tradeHandler)
   }
 
   /**

@@ -9,7 +9,7 @@ mainClass in (Compile, run) := Some("whitewerx.com.trapos.App")
 
 libraryDependencies ++=
   "io.netty" % "netty" % "3.5.4.Final" ::
-  "com.googlecode.disruptor" % "disruptor" % "2.10.1" ::
+  "com.googlecode.disruptor" % "disruptor" % "2.10.2" ::
   "com.dongxiguo" %% "zero-log" % "0.1.2" ::
   "org.scalatest" % "scalatest_2.9.0" % "1.8" % "test" ::
   "org.mockito" % "mockito-all" % "1.9.5-rc1" % "test" ::
